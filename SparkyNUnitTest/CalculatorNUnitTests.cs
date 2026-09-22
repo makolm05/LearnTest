@@ -5,6 +5,15 @@ namespace Sparky
     [TestFixture]
     public class CalculatorNUnitTests
     {
+
+        private Calculator _calculator;
+
+        [SetUp]
+        public void Setup()
+        {
+            _calculator = new Calculator();
+        }
+
         [Test]
         public void AddNumbers_InputTwoInt_GetCorrectAddition()
         {
@@ -62,6 +71,27 @@ namespace Sparky
             //Assert
             Assert.AreEqual(15.9, result, 0.5);
             Assert.That(15.9, Is.EqualTo(result).Within(0.5));
+        }
+
+        [Test]
+        public void OddRanger_InputMinAndMaxRange_ReturnValidOddNumberRange()
+        {
+            var expectedOddRange = new List<int>() { 7, 5, 9 };
+
+            var result = _calculator.GetOddRange(5, 10);
+
+            Assert.That(result, Is.EquivalentTo(expectedOddRange));
+
+           //Assert.That(result, Is.EqualTo(expectedOddRange));      // FAIL
+            Assert.That(result, Is.EquivalentTo(expectedOddRange)); // PASS
+            //Assert.Contains(7, expectedOddRange); // PASS
+            Assert.That(result, Does.Contain(7));
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.That(result, Has.No.Member(6));
+            Assert.That(result.OrderByDescending(x => x).ToList(), Is.Ordered.Descending);
+
+            Assert.That(result, Is.Unique);
         }
     }
 }
